@@ -40,6 +40,8 @@ class FusionEKF {
 
   // tool object used to compute Jacobian and RMSE
   Tools tools;
+  
+  // matrices
   Eigen::MatrixXd R_laser_;
   Eigen::MatrixXd R_radar_;
   Eigen::MatrixXd H_laser_;
@@ -47,6 +49,12 @@ class FusionEKF {
   Eigen::MatrixXd Q_;
   Eigen::MatrixXd R_;
   Eigen::MatrixXd F_;
+  Eigen::MatrixXd P_;
+  Eigen::VectorXd x_;
+  
+  // noise
+  float noise_ax;
+  float noise_ay;
 };
 
 #endif // FusionEKF_H_
