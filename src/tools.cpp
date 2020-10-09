@@ -52,22 +52,20 @@ MatrixXd Tools::CalculateJacobian(const VectorXd& x_state) {
    * Calculate a Jacobian here.
    */
   MatrixXd Hj(3, 4);
-  // Hj = MatrixXd(4, 4);
   
   float px = x_state[0];
   float py = x_state[1];
   float vx = x_state[2];
   float vy = x_state[3];
   float sumsquare = px*px + py*py;
-  float rtsumsquare = pow(sumsquare, 0.5);
-  float ttsumsquare = pow(sumsquare, 1.5);
   
   if (fabs(sumsquare) < 0.0001) {
     std::cout << "CalculateJacobian () - Error - Division by Zero" << std::endl;
-    sumsquare = 0.0001; // set to 0.0001 to prevent division by 0, then continue
-    rtsumsquare = 0.0001;
-    ttsumsquare = 0.0001;
+    sumsquare = 0.0001;
   }
+  
+  float rtsumsquare = pow(sumsquare, 0.5);
+  float ttsumsquare = pow(sumsquare, 1.5);
   
   Hj << px/rtsumsquare, py/rtsumsquare, 0, 0,
         -py/sumsquare, px/sumsquare, 0, 0,

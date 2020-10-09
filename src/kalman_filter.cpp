@@ -61,15 +61,14 @@ void KalmanFilter::UpdateEKF(const VectorXd &z) {
   float py = x_[1];
   float vx = x_[2];
   float vy = x_[3];
-  float pi = atan(1)*4;
-  float rtsumsquare = pow(px*px + py*py, 0.5);
+  float rtsumsquare = sqrt(px*px + py*py);
   VectorXd hx(3);
   hx << rtsumsquare, atan2(py, px), (px*vx + py*vy)/rtsumsquare;
   
   // adjust rho in y such that its between -pi and pi
   VectorXd y = z - hx;
-  if (y[1] < -0.5*pi) { y[1] = y[1] + 2*pi; }
-  if (y[1] > 0.5*pi) { y[1] = y[1] - 2*pi; }
+  while (y(1) > M_PI) { y(1) -= 2*M_PI; }
+  while (y(1) < -M_PI) { y(1) += 2*M_PI; }
   
   // combine with Hj
   MatrixXd S = Hj * P_ * Hj.transpose() + R_radar_;
